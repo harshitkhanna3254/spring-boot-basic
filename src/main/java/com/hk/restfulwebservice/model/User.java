@@ -3,13 +3,11 @@ package com.hk.restfulwebservice.model;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 import javax.validation.constraints.Past;
 import javax.validation.constraints.Size;
 import java.util.Date;
+import java.util.List;
 
 @Data
 @AllArgsConstructor
@@ -25,6 +23,9 @@ public class User {
 
     @Past(message = "Date of Birth can only be in past")
     private Date dateOfBirth;
+
+    @OneToMany(mappedBy = "user", fetch = FetchType.EAGER)
+    private List<Post> posts;
 
     public User() {
     }

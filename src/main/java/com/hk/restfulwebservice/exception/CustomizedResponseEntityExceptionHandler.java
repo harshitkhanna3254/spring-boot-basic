@@ -2,6 +2,8 @@ package com.hk.restfulwebservice.exception;
 
 import com.hk.restfulwebservice.constants.Constants;
 import com.hk.restfulwebservice.exception.model.GenericExceptionResponse;
+import com.hk.restfulwebservice.exception.types.PostAlreadyPresentException;
+import com.hk.restfulwebservice.exception.types.PostNotFoundException;
 import com.hk.restfulwebservice.exception.types.UserAlreadyPresentException;
 import com.hk.restfulwebservice.exception.types.UserNotFoundException;
 import org.springframework.http.HttpHeaders;
@@ -36,6 +38,14 @@ public class CustomizedResponseEntityExceptionHandler extends ResponseEntityExce
         return new ResponseEntity<>(exceptionResponse, HttpStatus.NOT_FOUND);
     }
 
+    @ExceptionHandler(PostNotFoundException.class)
+    public final ResponseEntity<Object> handlePostNotFoundExceptions(UserNotFoundException ex, WebRequest request) {
+        GenericExceptionResponse exceptionResponse =
+                new GenericExceptionResponse(new Date(), ex.getMessage(), request.getDescription(false));
+
+        return new ResponseEntity<>(exceptionResponse, HttpStatus.NOT_FOUND);
+    }
+
     @ExceptionHandler(UserAlreadyPresentException.class)
     public final ResponseEntity<Object> handleUserAlreadyPresentExceptions(UserNotFoundException ex, WebRequest request) {
         GenericExceptionResponse exceptionResponse =
@@ -44,13 +54,13 @@ public class CustomizedResponseEntityExceptionHandler extends ResponseEntityExce
         return new ResponseEntity<>(exceptionResponse, HttpStatus.CONFLICT);
     }
 
-//    @ExceptionHandler(MethodArgumentNotValidException.class)
-//    public final ResponseEntity<Object> handleValidationExceptions(MethodArgumentNotValidException ex, HttpHeaders headers, HttpStatus status, WebRequest request) {
-//        GenericExceptionResponse exceptionResponse =
-//                new GenericExceptionResponse(new Date(), ex.getMessage(), ex.getBindingResult().toString());
-//
-//        return new ResponseEntity<>(exceptionResponse, HttpStatus.BAD_REQUEST);
-//    }
+    @ExceptionHandler(PostAlreadyPresentException.class)
+    public final ResponseEntity<Object> handlePostAlreadyPresentExceptions(UserNotFoundException ex, WebRequest request) {
+        GenericExceptionResponse exceptionResponse =
+                new GenericExceptionResponse(new Date(), ex.getMessage(), request.getDescription(false));
+
+        return new ResponseEntity<>(exceptionResponse, HttpStatus.CONFLICT);
+    }
 
     @Override
     protected ResponseEntity<Object> handleMethodArgumentNotValid(MethodArgumentNotValidException ex, HttpHeaders headers, HttpStatus status, WebRequest request) {

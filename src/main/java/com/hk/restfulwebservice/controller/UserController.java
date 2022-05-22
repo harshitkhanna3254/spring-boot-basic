@@ -27,7 +27,7 @@ public class UserController {
         return userService.findAll();
     }
 
-    @GetMapping(path = "/user/{id}")
+    @GetMapping(path = "/users/{id}")
     public User findUser(@PathVariable Integer id) {
         return userService.findOne(id);
     }
@@ -45,7 +45,7 @@ public class UserController {
         return ResponseEntity.created(location).body(savedUser);
     }
 
-    @DeleteMapping(path = "/user/{id}")
+    @DeleteMapping(path = "/users/{id}")
     public ResponseEntity<Object> deleteUser(@PathVariable Integer id) {
         User deletedUser = userService.deleteById(id);
 
